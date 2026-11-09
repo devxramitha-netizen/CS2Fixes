@@ -1,5 +1,9 @@
 name: CI
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   workflow_dispatch:
   push:
@@ -93,7 +97,7 @@ jobs:
 
       - name: Package
         run: |
-          version=`echo $GITHUB_REF | sed "s/refs\/tags\///"`
+          version=`echo $GITHUB_REF | sed "s/refs\\/tags\\///"`
           ls -Rall
           if [ -d "./SteamRT3/" ]; then
             cd ./SteamRT3/
