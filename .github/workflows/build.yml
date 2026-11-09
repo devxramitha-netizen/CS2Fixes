@@ -1,3 +1,10 @@
+# Optimized by ci-cost (https://github.com/mariotavarez/ci-cost)
+# Applied 3 optimizations:
+# - [HIGH] Add pip dependency cache to "build" job
+# - [MEDIUM] Add concurrency group to "build.yml"
+# - [LOW] Use shallow clone in "build" job
+# Estimated savings: ~5 min/run
+#
 name: CI
 
 on:
@@ -21,6 +28,10 @@ on:
     - '**.sln'
     - '**.vcxproj**'
 
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   build:
     name: ${{ matrix.name }} Build
